@@ -31,6 +31,7 @@
 #include "transformations/common_optimizations/weights_dequantize_to_fake_quantize.hpp"
 #include "transformations/common_optimizations/convert_quantize_dequantize.hpp"
 #include "transformations/op_conversions/convert_subtract.hpp"
+#include "transformations/op_conversions/convert_maxpool_downgrade.hpp"
 
 #include "conv_bias_fusion.hpp"
 #include "convert_eltwise.hpp"
@@ -298,6 +299,7 @@ bool ArmPlugin::pass::ArmOptimizations::run_on_function(std::shared_ptr<ngraph::
         manager.register_pass<ov::pass::GraphRewrite>()->add_matcher<pass::ConvertTile>();
         manager.register_pass<ov::pass::GraphRewrite>()->add_matcher<pass::ConvertSplit>();
         manager.register_pass<ov::pass::GraphRewrite>()->add_matcher<pass::ConvertConcat>();
+        manager.register_pass<ov::pass::GraphRewrite>()->add_matcher<ngraph::pass::ConvertMaxPool8ToMaxPool1>();
         manager.register_pass<pass::FinalizeTrailingNodes>();
         manager.register_pass<pass::StoreResultName>();
         manager.register_pass<ngraph::pass::ConstantFolding>();

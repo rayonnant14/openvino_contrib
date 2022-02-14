@@ -32,8 +32,7 @@ static void FillLayerInfo(const Pool& node, arm_compute::PoolingLayerInfo& pool_
 }
 
 template<> Converter::Conversion::Ptr Converter::Convert(const opset::MaxPool& node) {
-    if ((node.get_input_shape(0).size() == 4) &&
-       (node.get_auto_pad() == ngraph::op::PadType::VALID)) {
+    if (node.get_input_shape(0).size() == 4)  {
         arm_compute::PoolingLayerInfo pool_info;
         FillLayerInfo(node, pool_info);
         pool_info.pool_type = arm_compute::PoolingType::MAX;
