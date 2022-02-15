@@ -12,15 +12,14 @@ using namespace InferenceEngine::details;
 namespace ArmPlugin {
 arm_compute::TensorShape ShapeCast(const ngraph::Shape& shape) {
     arm_compute::TensorShape tensorShape;
+    for (std::size_t i = 0; i < shape.size(); ++i) {
+        tensorShape.set(shape.size() - i - 1, shape[i], false);
+    }
+    if (tensorShape.num_dimensions() == 0) {
+        tensorShape.set(0, 1, false);
+        tensorShape.set_num_dimensions(1);
+    }
     return tensorShape;
-    // for (std::size_t i = 0; i < shape.size(); ++i) {
-    //     tensorShape.set(shape.size() - i - 1, shape[i], false);
-    // }
-    // if (tensorShape.num_dimensions() == 0) {
-    //     tensorShape.set(0, 1, false);
-    //     tensorShape.set_num_dimensions(1);
-    // }
-    // return tensorShape;
 }
 
 arm_compute::DataType DataTypeCast(const ngraph::element::Type type) {
@@ -186,6 +185,7 @@ Converter::Converter(const std::shared_ptr<const ngraph::Function> function, con
     }
     Register<opset::Result>();
     for (auto&& node : function->get_ordered_ops()) {
+        std::cout << node << std::endl;
         auto& layer = _layers[node->get_instance_id()];
         for (auto&& input : node->inputs()) {
             auto sourceOutput = input.get_source_output();

@@ -7,7 +7,7 @@
 
 namespace ArmPlugin {
 template<> Converter::Conversion::Ptr Converter::Convert(const ngraph::op::v3::ShapeOf& node) {
-    std::cout << "node " << std::endl;
+    std::cout << "node " << node << std::endl;
     // return;
     // auto make = [&] (auto refFunction) {
     // return this->MakeConversion(refFunction,
@@ -16,6 +16,7 @@ template<> Converter::Conversion::Ptr Converter::Convert(const ngraph::op::v3::S
     // };
     // return CallSwitch(
     //     AP_WRAP(make, ngraph::runtime::reference::shape_of),
+    //     node.get_input_element_type(0), allTypes,
     //     node.get_output_element_type(0), indexTypes);
 }
 
