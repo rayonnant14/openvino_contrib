@@ -306,6 +306,7 @@ bool ArmPlugin::pass::ArmOptimizations::run_on_function(std::shared_ptr<ngraph::
         manager.register_pass<ngraph::pass::ConvertPrecision>(ngraph::element::u64, ngraph::element::i32);
         manager.register_pass<ov::pass::GraphRewrite>()->add_matcher<pass::AlignNodePrecision>();
         manager.register_pass<ngraph::pass::ConstantFolding>();
+        // manager.register_pass<ov::pass::DisableConstantFolding(ngraph::op::v3::ShapeOf)>();
         manager.run_passes(f);
     }
 

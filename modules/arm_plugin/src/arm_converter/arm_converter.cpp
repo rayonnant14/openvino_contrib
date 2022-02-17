@@ -181,11 +181,11 @@ Converter::Converter(const std::shared_ptr<const ngraph::Function> function, con
         Register<ngraph::op::v8::I420toBGR>();
         Register<ngraph::op::v8::I420toRGB>();
         Register<ngraph::op::v8::MaxPool>();
-        Register<ngraph::op::v3::ShapeOf>();
+        // Register<ngraph::op::v3::ShapeOf>();
     }
     Register<opset::Result>();
     for (auto&& node : function->get_ordered_ops()) {
-        std::cout << node << std::endl;
+        //std::cout << node << std::endl;
         auto& layer = _layers[node->get_instance_id()];
         for (auto&& input : node->inputs()) {
             auto sourceOutput = input.get_source_output();
